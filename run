@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "$2" != "-nx" ]; then
+    mvn assembly:assembly
+fi
+
+if [ $? -eq 0 ]; then
+    echo ""
+    echo "Starting the program"
+    echo ""
+    java -jar target/sql-parser-*-jar-with-dependencies.jar $1
+fi

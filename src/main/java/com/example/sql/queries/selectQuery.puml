@@ -1,0 +1,25 @@
+@startuml selectQuery
+
+(start) as start
+(SELECT 5) as select
+(FROM 1) as from
+(WHERE 4) as where
+(JOIN 2) as join
+(ON 3) as on
+' (AND...) as and
+(end)  as end
+
+start -r-> select
+select --> from
+from --> end
+from --> where
+from --> join
+' where --> and
+where --> end
+' and --> end
+' join --> and
+join -d-> on
+join -l-> where
+on --> end
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml updateQuery
+
+(start) as start
+(UPDATE 1) as update
+(SET 5) as set
+(WHERE 4) as where
+' (AND...) as and
+(end)  as end
+
+start -l-> update
+update -d-> set
+set -r-> where
+where -r-> end
+
+@enduml
