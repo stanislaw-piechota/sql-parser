@@ -58,4 +58,15 @@ public class TableRecord<T> extends ArrayList<T> {
         retval += "\""+this.getLast().toString()+"\"]";
         return retval;
     }
+
+    public boolean equals(TableRecord<T> other){
+        if (this.size() != other.size())
+            return false;
+
+        for (int i=0; i<this.size(); i++){
+            if (!this.get(i).equals(other.get(i)))
+                return false;
+        }
+        return true;
+    }
 }

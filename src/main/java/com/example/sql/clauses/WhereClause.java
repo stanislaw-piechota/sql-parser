@@ -8,6 +8,9 @@ import com.example.sql.db.DbTable;
 import com.example.sql.exceptions.ColumnNotFoundError;
 import com.example.sql.exceptions.InvalidSyntaxError;
 import com.example.sql.exceptions.InvalidValueError;
+import com.example.sql.exceptions.TableNotFoundError;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class WhereClause extends AssignmentClause {
     final static String[] NEXT_CLAUSES = { null };
@@ -27,7 +30,8 @@ public class WhereClause extends AssignmentClause {
     }
 
     @Override
-    public DbTable execute(DbStorage db, DbTable table) throws ColumnNotFoundError, InvalidSyntaxError, InvalidValueError {
+    public DbTable execute(DbStorage db, DbTable table)
+        throws ColumnNotFoundError, InvalidSyntaxError, InvalidValueError, TableNotFoundError, URISyntaxException, IOException {
         this.setExecuteParams(table, String.join("", this.getValues()));
         super.cmp = ALLOWED_COMPARISONS.get(super.operation);
         return super.execute(db, table);

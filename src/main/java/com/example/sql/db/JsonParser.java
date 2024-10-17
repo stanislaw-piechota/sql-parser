@@ -15,13 +15,11 @@ public class JsonParser {
         if (!filename.endsWith(".json")){
             throw new IOException("File not in .json format");
         }
-        System.out.println(new File(filename).toURI().toURL());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(new File(filename).toURI().toURL(), new TypeReference<Map<String, List<List<String>>>>(){});
     }
 
     public static void save(String filename, String content) throws URISyntaxException, IOException {
-        System.out.println(new File(filename).toURI().toURL());
         Files.writeString(Paths.get(new File(filename).toURI()), content);
     }
 }

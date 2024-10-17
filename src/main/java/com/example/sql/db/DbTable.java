@@ -13,6 +13,11 @@ public class DbTable extends ArrayList<TableRecord<String>> {
         super();
     }
 
+    public DbTable(String name) {
+        super();
+        this.name = name;
+    }
+
     public DbTable(DbTable table){
         super();
         this.addAll(table);

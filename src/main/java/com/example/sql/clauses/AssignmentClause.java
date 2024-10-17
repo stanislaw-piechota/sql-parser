@@ -9,6 +9,9 @@ import com.example.sql.db.TableRecord;
 import com.example.sql.exceptions.ColumnNotFoundError;
 import com.example.sql.exceptions.InvalidSyntaxError;
 import com.example.sql.exceptions.InvalidValueError;
+import com.example.sql.exceptions.TableNotFoundError;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class AssignmentClause extends BaseClause implements SqlClause {
     final String[] NEXT_CLAUSES = { "WHERE", null };
@@ -41,7 +44,8 @@ public class AssignmentClause extends BaseClause implements SqlClause {
         return val.startsWith("\"") ? (val.endsWith("\"") ? true : false) : false;
     }
 
-    public void setExecuteParams(DbTable table, String valuesString) throws IndexOutOfBoundsException, ColumnNotFoundError, InvalidSyntaxError {
+    public void setExecuteParams(DbTable table, String valuesString)
+        throws IndexOutOfBoundsException, ColumnNotFoundError, InvalidSyntaxError, InvalidValueError {
         Matcher matcher = ALLOWED_OP_REGEX.matcher(valuesString);
         if (!matcher.find()) {
             throw new InvalidSyntaxError(this.getClause(), "Unsupported operation sign");
@@ -59,8 +63,9 @@ public class AssignmentClause extends BaseClause implements SqlClause {
         }
     }
 
-    public DbTable execute(DbStorage db, DbTable table) throws ColumnNotFoundError, InvalidSyntaxError, InvalidValueError {
-        DbTable result = new DbTable();
+    public DbTable execute(DbStorage db, DbTable table)
+        throws ColumnNotFoundError, InvalidSyntaxError, InvalidValueError, TableNotFoundError, URISyntaxException, IOException {
+        DbTable result = new DbTable(table.getName());
         result.setColumns(table.getColumns());
 
         for (TableRecord<String> row: table){

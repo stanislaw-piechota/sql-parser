@@ -37,6 +37,10 @@ public class BaseClause {
         return this.priority;
     }
 
+    public static String stripWrapper(String val) {
+        return val.substring(1, val.length() - 1);
+    }
+
     public String getClause(){
         return this.clause;
     }

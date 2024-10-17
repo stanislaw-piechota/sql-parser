@@ -7,6 +7,9 @@ import com.example.sql.db.DbTable;
 import com.example.sql.exceptions.ColumnNotFoundError;
 import com.example.sql.exceptions.InvalidSyntaxError;
 import com.example.sql.exceptions.InvalidValueError;
+import com.example.sql.exceptions.TableNotFoundError;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class OnClause extends AssignmentClause {
     final static String[] NEXT_CLAUSES = { "WHERE", null };
@@ -23,7 +26,8 @@ public class OnClause extends AssignmentClause {
     }
 
     @Override
-    public DbTable execute(DbStorage db, DbTable table) throws ColumnNotFoundError, InvalidSyntaxError, InvalidValueError {
+    public DbTable execute(DbStorage db, DbTable table)
+        throws ColumnNotFoundError, InvalidSyntaxError, InvalidValueError, TableNotFoundError, URISyntaxException, IOException {
         this.setExecuteParams(table, String.join("", this.getValues()));
         if (isString(this.v1) || isString(this.v2))
             throw new InvalidValueError(this.getClause(), "One or two operands are strings");

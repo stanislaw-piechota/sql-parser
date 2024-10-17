@@ -22,10 +22,6 @@ public class ValuesClause extends BaseClause implements SqlClause {
         return val.startsWith("\"") ? (val.endsWith("\"") ? true : false) : false;
     }
 
-    private static String stripWrapper(String val) {
-        return val.substring(1, val.length()-1);
-    }
-
     public DbTable execute(DbStorage db, DbTable table) throws TableNotFoundError, InvalidValueError, InvalidSyntaxError {
         String valuesString = String.join(",", this.getValues());
         if (!valuesString.startsWith("(") || !valuesString.endsWith(")"))

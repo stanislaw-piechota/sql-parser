@@ -26,7 +26,9 @@ public class SqlQuery {
         "SELECT", new SelectClause(),
         "INSERT", new InsertClause(),
         "INTO", new IntoClause(),
-        "VALUES", new ValuesClause()
+        "VALUES", new ValuesClause(),
+        "UPDATE", new UpdateClause(),
+        "SET", new SetClause()
     );
     private List<SqlClause> sortedClauses = new ArrayList<>();
     private DbTable result;
