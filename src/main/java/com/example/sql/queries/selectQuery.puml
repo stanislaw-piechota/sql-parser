@@ -6,6 +6,7 @@
 (WHERE 4) as where
 (JOIN 2) as join
 (ON 3) as on
+(AND N) as and
 ' (AND...) as and
 (end)  as end
 
@@ -21,5 +22,8 @@ where --> end
 join -d-> on
 join -l-> where
 on --> end
+on --> and
+where <--> and
+and <--> and
 
 @enduml

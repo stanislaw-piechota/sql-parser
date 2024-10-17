@@ -13,8 +13,16 @@ public class DbTable extends ArrayList<TableRecord<String>> {
         super();
     }
 
+    public DbTable(DbTable table){
+        super();
+        this.addAll(table);
+        this.name = table.name;
+        this.setColumns(table.getColumns());
+    }
+
     public DbTable(String name, List<TableRecord<String>> table){
-        super(table);
+        super();
+        super.addAll(table);
         this.name = name;
         for (String column: table.get(0))
             this.columns.add(new TableColumn(column, List.of(column, name+"."+column)));
@@ -69,7 +77,7 @@ public class DbTable extends ArrayList<TableRecord<String>> {
 
     public DbTable merge(DbTable other){
         DbTable result = new DbTable();
-        result.setColumns(this.columns.join(other.columns));
+        result.getColumns().addAll(this.columns.join(other.columns));
         for (TableRecord<String> row : this){
             for (TableRecord<String> otherRow : other){
                 result.add(row.join(otherRow));
@@ -99,9 +107,20 @@ public class DbTable extends ArrayList<TableRecord<String>> {
     }
 
     public String toString(){
+        if (this.isEmpty() && this.columns.isEmpty()){
+            return "Result of this query is empty";
+        }
         String retval = this.columns.toString(true);
         for (TableRecord<String> row: this)
             retval += row.toString();
+        return retval;
+    }
+
+    public String serialize() {
+        String retval = "["+this.columns.serialize()+",";
+        for (int i = 0; i < this.size() - 1; i++)
+            retval += this.get(i).serialize() + ",";
+        retval += this.getLast().serialize() + "]";
         return retval;
     }
 }

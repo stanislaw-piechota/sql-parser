@@ -5,13 +5,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import java.util.List;
 import java.io.IOException;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class JsonParser {
-    public static Map<String, List<List<String>>> parseFile(String filename) throws IOException {
+    public static Map<String, List<List<String>>> parseFile(String filename) throws IOException, URISyntaxException {
         if (!filename.endsWith(".json")){
             throw new IOException("File not in .json format");
         }
+        System.out.println(new File(filename).toURI().toURL());
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(JsonParser.class.getResource("/"+filename), new TypeReference<Map<String, List<List<String>>>>(){});
+        return mapper.readValue(new File(filename).toURI().toURL(), new TypeReference<Map<String, List<List<String>>>>(){});
+    }
+
+    public static void save(String filename, String content) throws URISyntaxException, IOException {
+        System.out.println(new File(filename).toURI().toURL());
+        Files.writeString(Paths.get(new File(filename).toURI()), content);
     }
 }

@@ -6,6 +6,11 @@ public class TableColumn {
     private String name;
     private TableRecord<String> aliases;
 
+    public TableColumn(TableColumn column){
+        this.name = column.getName();
+        this.aliases = new TableRecord<>(column.getAliases());
+    }
+
     public TableColumn(String name, List<String> aliases){
         this.name = name;
         this.aliases = new TableRecord<>(aliases);
@@ -36,5 +41,9 @@ public class TableColumn {
 
     public String toString(){
         return this.aliases.getFirst();
+    }
+
+    public String serialize(){
+        return this.name;
     }
 }

@@ -6,15 +6,18 @@ public class ColumnRow extends TableRecord<TableColumn> {
     final static String ROW_CHAR_WIDTH = "20";
     
     public ColumnRow(TableRecord<TableColumn> data){
-        super(data);
+        super();
+        super.addAll(data);
     }
 
     public ColumnRow(List<TableColumn> data){
-        super(data);
+        super();
+        super.addAll(data);
     }
 
     public ColumnRow(TableColumn data) {
-        super(List.of(data));
+        super();
+        super.add(data);
     }
 
     public ColumnRow(){
@@ -31,17 +34,32 @@ public class ColumnRow extends TableRecord<TableColumn> {
     }
 
     public ColumnRow join(ColumnRow other){
-        for (TableColumn column: this){
-            for (TableColumn otherColumn : other) {
-                column.getAliases().remove(otherColumn.getName());
-                otherColumn.getAliases().remove(column.getName());
+        ColumnRow newColumn = new ColumnRow();
+        for (TableColumn thisColumn: this)
+            newColumn.add(new TableColumn(thisColumn));
+        for (TableColumn otherColumn : other)
+            newColumn.add(new TableColumn(otherColumn));
+        for (int i=0; i<newColumn.size()-1; i++){
+            for (int j=i+1; j<newColumn.size(); j++){
+                TableColumn first = newColumn.get(i), second = newColumn.get(j);
+                first.getAliases().remove(second.getName());
+                second.getAliases().remove(first.getName());
             }
         }
-        return new ColumnRow(super.join(other));
+        return newColumn;
     }
 
     @Override
     public String toString(){
         return super.toString(true);
+    }
+
+    @Override
+    public String serialize() {
+        String retval = "[";
+        for (int i = 0; i < this.size() - 1; i++)
+            retval += "\"" + this.get(i).serialize() + "\",";
+        retval += "\"" + this.getLast().serialize() + "\"]";
+        return retval;
     }
 }

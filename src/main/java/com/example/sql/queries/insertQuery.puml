@@ -1,9 +1,9 @@
 @startuml insertQuery
 
 (start) as start
-(INTO 1) as into
-(VALUES 2) as values
-(INSERT 3) as insert
+(INTO 3) as into
+(VALUES 1) as values
+(INSERT 5) as insert
 (end) as end
 
 start -l-> insert

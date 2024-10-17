@@ -7,15 +7,18 @@ public class TableRecord<T> extends ArrayList<T> {
     final static String ROW_CHAR_WIDTH = "20";
     
     public TableRecord(TableRecord<T> data){
-        super(data);
+        super();
+        super.addAll(data);
     }
 
     public TableRecord(List<T> data){
-        super(data);
+        super();
+        super.addAll(data);
     }
 
     public TableRecord(T data) {
-        super(List.of(data));
+        super();
+        super.add(data);
     }
 
     public TableRecord(){
@@ -46,5 +49,13 @@ public class TableRecord<T> extends ArrayList<T> {
 
     public String toString(){
         return this.toString(false);
+    }
+
+    public String serialize(){
+        String retval = "[";
+        for (int i=0; i<this.size()-1; i++)
+            retval += "\""+this.get(i).toString()+"\",";
+        retval += "\""+this.getLast().toString()+"\"]";
+        return retval;
     }
 }

@@ -2,6 +2,7 @@ package com.example;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 
 import com.example.sql.SqlQuery;
 import com.example.sql.db.DbStorage;
@@ -26,7 +27,6 @@ public class App
                 Double runTime = query.run() / 1000.0;
                 System.out.println("Command succesful with runtime: "+runTime+"s");
                 System.out.println(query.getResult());
-                // new SqlQuery(readCommand(), db);
             } catch (IOException e) {
                 System.err.println("Error occured while reading input");
             } catch (InvalidSyntaxError e){
@@ -39,6 +39,9 @@ public class App
                 System.err.println(e.getMessage());
                 e.printStackTrace();
             } catch (ColumnNotFoundError e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
                 System.err.println(e.getMessage());
                 e.printStackTrace();
             }
@@ -55,6 +58,11 @@ public class App
         try {
             run(new DbStorage(args[0]));
         } catch (IOException e){
+            System.out.println("Problem reading db file");
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+            System.exit(2);
+        } catch (URISyntaxException e) {
             System.out.println("Problem reading db file");
             System.err.println(e.getMessage());
             e.printStackTrace();
