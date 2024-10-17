@@ -8,7 +8,7 @@ import com.example.sql.exceptions.TableNotFoundError;
 
 public class FromClause extends BaseClause implements SqlClause {
     final static String[] NEXT_CLAUSES = { "WHERE", "JOIN", null };
-    final static String[] PREV_CLAUSES = { "SELECT" };
+    final static String[] PREV_CLAUSES = { "SELECT", "DELETE" };
 
     public FromClause(){
         super("FROM", 1, PREV_CLAUSES, NEXT_CLAUSES);
@@ -16,6 +16,8 @@ public class FromClause extends BaseClause implements SqlClause {
 
     public DbTable execute(DbStorage db, DbTable table) throws TableNotFoundError, InvalidValueError, InvalidSyntaxError {
         table = db.getTable(this.getValue(0));
+        if (this.getValues().size() >= 2)
+            table.setName("<result_table>");
         for (int i=1; i<this.getValues().size(); i++){
             if (table.getName().equals(this.getValue(i))) 
                 throw new InvalidValueError(this.getClause(), "Repeating table name");

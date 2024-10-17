@@ -20,6 +20,7 @@ public class JoinClause extends BaseClause implements SqlClause {
 
     public DbTable execute(DbStorage db, DbTable table) throws TableNotFoundError, InvalidSyntaxError {
         DbTable joinTable = db.getTable(this.getValue(0));
+        joinTable.setName("<result_table>");
         return table.merge(joinTable);
     }
 }

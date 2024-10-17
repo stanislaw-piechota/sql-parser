@@ -1,6 +1,7 @@
 package com.example.sql;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -18,17 +19,18 @@ public class SqlQuery {
     final static String SPACE_CHARS = "[ ,]+";
     private DbStorage db;
     private String command;
-    private Map<String, SqlClause> clauses = Map.of(
-        "FROM", new FromClause(),
-        "JOIN", new JoinClause(),
-        "ON", new OnClause(),
-        "WHERE", new WhereClause(),
-        "SELECT", new SelectClause(),
-        "INSERT", new InsertClause(),
-        "INTO", new IntoClause(),
-        "VALUES", new ValuesClause(),
-        "UPDATE", new UpdateClause(),
-        "SET", new SetClause()
+    private Map<String, SqlClause> clauses = Map.ofEntries(
+        entry("FROM", new FromClause()),
+        entry("JOIN", new JoinClause()),
+        entry("ON", new OnClause()),
+        entry("WHERE", new WhereClause()),
+        entry("SELECT", new SelectClause()),
+        entry("INSERT", new InsertClause()),
+        entry("INTO", new IntoClause()),
+        entry("VALUES", new ValuesClause()),
+        entry("UPDATE", new UpdateClause()),
+        entry("SET", new SetClause()),
+        entry("DELETE", new DeleteClause())
     );
     private List<SqlClause> sortedClauses = new ArrayList<>();
     private DbTable result;
@@ -39,6 +41,10 @@ public class SqlQuery {
         this.result = new DbTable();
         this.parseClauses();
         this.sortClauses();
+    }
+
+    private static <K, V> Entry<K, V> entry(K key, V value) {
+        return Map.entry(key, value);
     }
 
     private void parseClauses() throws InvalidSyntaxError, InvalidValueError {
@@ -80,11 +86,8 @@ public class SqlQuery {
 
     public long run() throws TableNotFoundError, InvalidSyntaxError, InvalidValueError, ColumnNotFoundError, IOException, URISyntaxException {
         long startTime = System.currentTimeMillis();
-        for (SqlClause clause: this.sortedClauses){
+        for (SqlClause clause: this.sortedClauses)
             this.result = clause.execute(this.db, this.result);
-            // System.out.println(result);
-        }
-        // System.out.println(result);
         return System.currentTimeMillis() - startTime;
     }
 

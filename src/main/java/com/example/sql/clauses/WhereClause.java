@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 
 public class WhereClause extends AssignmentClause {
     final static String[] NEXT_CLAUSES = { null };
-    final static String[] PREV_CLAUSES = { "FROM", "ON" };
+    final static String[] PREV_CLAUSES = { "FROM", "ON", "SET" };
     final static Pattern ALLOWED_OP_REGEX = Pattern.compile("([><!]?=)|[<>]", Pattern.CASE_INSENSITIVE);
     final static Map<String, Comparator> ALLOWED_COMPARISONS = Map.of(
         "=", (v1, v2) -> v1.equals(v2),
