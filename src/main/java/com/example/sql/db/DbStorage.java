@@ -36,6 +36,10 @@ public class DbStorage {
         this.data.replace(tableName, newTable);
     }
 
+    public Map<String, DbTable> getData(){
+        return this.data;
+    }
+
     public String serialize(){
         String retval = "{";
         for (Map.Entry<String, DbTable> entry: data.entrySet()){

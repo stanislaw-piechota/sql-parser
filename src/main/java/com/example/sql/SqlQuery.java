@@ -30,7 +30,8 @@ public class SqlQuery {
         entry("VALUES", new ValuesClause()),
         entry("UPDATE", new UpdateClause()),
         entry("SET", new SetClause()),
-        entry("DELETE", new DeleteClause())
+        entry("DELETE", new DeleteClause()),
+        entry("DISPLAY", new DisplayClause())
     );
     private List<SqlClause> sortedClauses = new ArrayList<>();
     private DbTable result;
